@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo List | حمیدرضا</title>
+    <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Vazirmatn', sans-serif;
+            background: linear-gradient(135deg, #0f172a, #1e3a5f);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .container {
+            background: #1e293b;
+            border-radius: 24px;
+            padding: 30px;
+            width: 100%;
+            max-width: 500px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+        }
+        h1 { color: white; text-align: center; margin-bottom: 20px; font-size: 1.8rem; }
+        .input-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        input {
+            flex: 1;
+            padding: 14px;
+            border-radius: 12px;
+            border: 2px solid #334155;
+            background: #0f172a;
+            color: white;
+            font-family: 'Vazirmatn', sans-serif;
+            font-size: 1rem;
+        }
+        input:focus { outline: none; border-color: #3b82f6; }
+        .add-btn {
+            padding: 14px 24px;
+            background: #3b82f6;
+            color: white;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            font-family: 'Vazirmatn', sans-serif;
+            font-weight: bold;
+            transition: 0.2s;
+        }
+        .add-btn:hover { background: #2563eb; }
+        .filter-btns {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+        .filter-btn {
+            flex: 1;
+            padding: 10px;
+            border: 2px solid #334155;
+            background: transparent;
+            color: #94a3b8;
+            border-radius: 10px;
+            cursor: pointer;
+            font-family: 'Vazirmatn', sans-serif;
+            font-size: 0.85rem;
+            transition: 0.2s;
+        }
+        .filter-btn.active { background: #3b82f6; color: white; border-color: #3b82f6; }
+        ul { list-style: none; }
+        li {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 14px;
+            background: #0f172a;
+            border-radius: 12px;
+            margin-bottom: 8px;
+            color: white;
+            transition: 0.3s;
+            animation: slideIn 0.3s ease;
+        }
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        li.completed span { text-decoration: line-through; opacity: 0.5; }
+        li span { flex: 1; cursor: pointer; }
+        .delete-btn {
+            background: #ef4444;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: 'Vazirmatn', sans-serif;
+            font-size: 0.8rem;
+            transition: 0.2s;
+        }
+        .delete-btn:hover { background: #dc2626; }
+        .empty { text-align: center; color: #64748b; padding: 40px; }
+        .stats { color: #94a3b8; text-align: center; margin-top: 15px; font-size: 0.85rem; }
+        .back-btn { display: block; text-align: center; margin-top: 15px; color: #94a3b8; text-decoration: none; font-size: 0.85rem; }
+        .back-btn:hover { color: white; }
+    </style>
+</head>
+<body>
+    <div>
+        <div class="container">
+            <h1>📝 لیست وظایف</h1>
+            <div class="input-group">
+                <input type="text" id="taskInput" placeholder="وظیفه جدید رو بنویس..." onkeypress="if(event.key==='Enter')addTask()">
+                <button class="add-btn" onclick="addTask()">➕ اضافه</button>
+            </div>
+            <div class="filter-btns">
+                <button class="filter-btn active" onclick="filterTasks('all')">همه</button>
+                <button class="filter-btn" onclick="filterTasks('active')">فعال</button>
+                <button class="filter-btn" onclick="filterTasks('completed')">انجام شده</button>
+            </div>
+            <ul id="taskList"></ul>
+            <div class="stats" id="stats"></div>
+        </div>
+        <a href="index.html" class="back-btn">← بازگشت به سایت اصلی</a>
+    </div>
+
+    <script>
+        let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+        let currentFilter = 'all';
+
+        function saveTasks() { localStorage.setItem('tasks', JSON.stringify(tasks)); }
+
+        function addTask() {
+            const input = document.getElementById('taskInput');
+            const text = input.value.trim();
+            if (!text) return;
+            tasks.push({ id: Date.now(), text, completed: false });
+            input.value = '';
+            saveTasks();
+            renderTasks();
+        }
+
+        function toggleTask(id) {
+            const task = tasks.find(t => t.id === id);
+            if (task) { task.completed = !task.completed; saveTasks(); renderTasks(); }
+        }
+
+        function deleteTask(id) {
+            tasks = tasks.filter(t => t.id !== id);
+            saveTasks();
+            renderTasks();
+        }
+
+        function filterTasks(filter) {
+            currentFilter = filter;
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            event.target.classList.add('active');
+            renderTasks();
+        }
+
+        function renderTasks() {
+            const list = document.getElementById('taskList');
+            const filtered = currentFilter === 'all' ? tasks : 
+                            currentFilter === 'active' ? tasks.filter(t => !t.completed) : 
+                            tasks.filter(t => t.completed);
+            
+            if (filtered.length === 0) {
+                list.innerHTML = '<div class="empty">😴 هیچ وظیفه‌ای نیست!</div>';
+            } else {
+                list.innerHTML = filtered.map(t => `
+                    <li class="${t.completed ? 'completed' : ''}">
+                        <span onclick="toggleTask(${t.id})">${t.text}</span>
+                        <button class="delete-btn" onclick="deleteTask(${t.id})">🗑️</button>
+                    </li>
+                `).join('');
+            }
+            
+            const activeCount = tasks.filter(t => !t.completed).length;
+            document.getElementById('stats').textContent = `${activeCount} وظیفه فعال | ${tasks.length} کل`;
+        }
+
+        renderTasks();
+    </script>
+</body>
+</html>

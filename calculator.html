@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ماشین حساب حرفه‌ای | حمیدرضا</title>
+    <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Vazirmatn', sans-serif;
+            background: linear-gradient(135deg, #0f172a, #1e1b4b);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .calculator {
+            background: #1e293b;
+            border-radius: 20px;
+            padding: 16px;
+            width: 300px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+            margin: 0 auto;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            color: #94a3b8;
+            font-size: 0.65rem;
+        }
+        .mode-btn {
+            background: rgba(59,130,246,0.2);
+            color: #60a5fa;
+            border: none;
+            padding: 4px 8px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-family: 'Vazirmatn', sans-serif;
+            font-size: 0.65rem;
+        }
+        .display-container {
+            background: #0f172a;
+            border-radius: 14px;
+            padding: 12px;
+            margin-bottom: 10px;
+            min-height: 80px;
+        }
+        .history {
+            color: #64748b;
+            font-size: 0.7rem;
+            text-align: right;
+            min-height: 18px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2px;
+            direction: ltr;
+            justify-content: flex-end;
+        }
+        .history-item {
+            background: rgba(59,130,246,0.15);
+            color: #94a3b8;
+            padding: 2px 6px;
+            border-radius: 8px;
+            font-size: 0.65rem;
+            cursor: pointer;
+        }
+        .display {
+            color: white;
+            font-size: 1.8rem;
+            text-align: right;
+            font-weight: bold;
+            direction: ltr;
+            overflow-x: auto;
+            white-space: nowrap;
+            margin-top: 6px;
+        }
+        .display::-webkit-scrollbar { display: none; }
+        .scientific-row {
+            display: none;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 4px;
+            margin-bottom: 4px;
+        }
+        .buttons {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 5px;
+        }
+        button {
+            font-family: 'Vazirmatn', sans-serif;
+            font-size: 1rem;
+            padding: 10px 2px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: 0.15s;
+        }
+        button:active { transform: scale(0.92); }
+        .num { background: #334155; color: white; }
+        .op { background: #3b82f6; color: white; }
+        .func { background: #475569; color: #cbd5e1; font-size: 0.75rem; padding: 8px 2px; }
+        .equal { background: #10b981; color: white; font-size: 1.1rem; }
+        .clear { background: #ef4444; color: white; }
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 12px;
+            color: #64748b;
+            text-decoration: none;
+            font-size: 0.75rem;
+        }
+        .back-link:hover { color: white; }
+    </style>
+</head>
+<body>
+    <div>
+        <div class="calculator">
+            <div class="header">
+                <span>🧮</span>
+                <button class="mode-btn" onclick="toggleMode()" id="modeBtn">علمی</button>
+            </div>
+            
+            <div class="display-container">
+                <div class="history" id="history"></div>
+                <div class="display" id="display">0</div>
+            </div>
+            
+            <div class="scientific-row" id="sciRow">
+                <button class="func" onclick="sci('sin')">sin</button>
+                <button class="func" onclick="sci('cos')">cos</button>
+                <button class="func" onclick="sci('tan')">tan</button>
+                <button class="func" onclick="sci('sqrt')">√</button>
+                <button class="func" onclick="sci('pow')">x²</button>
+                <button class="func" onclick="sci('log')">log</button>
+                <button class="func" onclick="sci('ln')">ln</button>
+                <button class="func" onclick="sci('pi')">π</button>
+                <button class="func" onclick="sci('e')">e</button>
+                <button class="func" onclick="sci('fact')">n!</button>
+            </div>
+
+            <div class="buttons">
+                <button class="clear" onclick="clearAll()">AC</button>
+                <button class="func" onclick="del()">⌫</button>
+                <button class="op" onclick="op('%')">%</button>
+                <button class="op" onclick="op('/')">÷</button>
+                
+                <button class="num" onclick="num('7')">۷</button>
+                <button class="num" onclick="num('8')">۸</button>
+                <button class="num" onclick="num('9')">۹</button>
+                <button class="op" onclick="op('*')">×</button>
+                
+                <button class="num" onclick="num('4')">۴</button>
+                <button class="num" onclick="num('5')">۵</button>
+                <button class="num" onclick="num('6')">۶</button>
+                <button class="op" onclick="op('-')">-</button>
+                
+                <button class="num" onclick="num('1')">۱</button>
+                <button class="num" onclick="num('2')">۲</button>
+                <button class="num" onclick="num('3')">۳</button>
+                <button class="op" onclick="op('+')">+</button>
+                
+                <button class="func" onclick="sign()">±</button>
+                <button class="num" onclick="num('0')">۰</button>
+                <button class="num" onclick="dot()">.</button>
+                <button class="equal" onclick="calc()">=</button>
+            </div>
+        </div>
+        <a href="index.html" class="back-link">← بازگشت</a>
+    </div>
+
+    <script>
+        const dis = document.getElementById('display');
+        const hist = document.getElementById('history');
+        let inp = '0', reset = false, h = [], sciMode = false;
+
+        function up() {
+            let t = inp.replace(/\*/g, '×').replace(/\//g, '÷');
+            dis.textContent = t || '0';
+            if (inp.length > 12) dis.style.fontSize = '1.3rem';
+            else if (inp.length > 9) dis.style.fontSize = '1.5rem';
+            else dis.style.fontSize = '1.8rem';
+        }
+
+        function num(n) {
+            const m = { '۰': '0', '۱': '1', '۲': '2', '۳': '3', '۴': '4', '۵': '5', '۶': '6', '۷': '7', '۸': '8', '۹': '9' };
+            const v = m[n] || n;
+            if (reset) { inp = v; reset = false; }
+            else inp = inp === '0' ? v : inp + v;
+            up();
+        }
+
+        function op(o) { reset = false; inp += o; up(); }
+
+        function dot() {
+            if (reset) { inp = '0.'; reset = false; }
+            else { const p = inp.split(/[\+\-\*\/\%]/); if (!p[p.length - 1].includes('.')) inp += '.'; }
+            up();
+        }
+
+        function sign() {
+            if (inp === '0') return;
+            inp = inp.startsWith('-') ? inp.slice(1) : '-' + inp;
+            up();
+        }
+
+        function del() { if (reset) clearAll(); else { inp = inp.length > 1 ? inp.slice(0, -1) : '0'; up(); } }
+
+        function clearAll() { inp = '0'; reset = false; up(); }
+
+        function calc() {
+            try {
+                let e = inp.replace(/×/g, '*').replace(/÷/g, '/');
+                let r = eval(e);
+                if (!isFinite(r) || isNaN(r)) throw new Error();
+                h.unshift(inp + ' = ' + r); if (h.length > 4) h.pop();
+                hist.innerHTML = h.map((x, i) => `<span class="history-item" onclick="use(${i})">${x.split(' = ')[1]}</span>`).join('');
+                inp = Number.isInteger(r) ? r.toString() : parseFloat(r.toFixed(8)).toString();
+                reset = true; up();
+            } catch { inp = 'خطا'; reset = true; up(); }
+        }
+
+        function sci(f) {
+            try {
+                let v = parseFloat(inp); if (isNaN(v)) return;
+                let r;
+                switch(f) {
+                    case 'sin': r = Math.sin(v * Math.PI / 180); break;
+                    case 'cos': r = Math.cos(v * Math.PI / 180); break;
+                    case 'tan': r = Math.tan(v * Math.PI / 180); break;
+                    case 'sqrt': r = Math.sqrt(v); break;
+                    case 'pow': r = v * v; break;
+                    case 'log': r = Math.log10(v); break;
+                    case 'ln': r = Math.log(v); break;
+                    case 'pi': r = Math.PI; break;
+                    case 'e': r = Math.E; break;
+                    case 'fact':
+                        if (v < 0 || !Number.isInteger(v)) { inp = 'خطا'; up(); return; }
+                        r = 1; for (let i = 2; i <= v; i++) r *= i; break;
+                }
+                h.unshift(f + '(' + v + ') = ' + r); if (h.length > 4) h.pop();
+                hist.innerHTML = h.map((x, i) => `<span class="history-item" onclick="use(${i})">${x.split(' = ')[1]}</span>`).join('');
+                inp = parseFloat(r.toFixed(8)).toString(); reset = true; up();
+            } catch { inp = 'خطا'; reset = true; up(); }
+        }
+
+        function use(i) { inp = h[i].split(' = ')[1]; reset = true; up(); }
+
+        function toggleMode() {
+            sciMode = !sciMode;
+            document.getElementById('sciRow').style.display = sciMode ? 'grid' : 'none';
+            document.getElementById('modeBtn').textContent = sciMode ? 'ساده' : 'علمی';
+        }
+
+        document.addEventListener('keydown', e => {
+            if (e.key >= '0' && e.key <= '9') { e.preventDefault(); num(e.key); }
+            else if (e.key === '+') { e.preventDefault(); op('+'); }
+            else if (e.key === '-') { e.preventDefault(); op('-'); }
+            else if (e.key === '*') { e.preventDefault(); op('*'); }
+            else if (e.key === '/') { e.preventDefault(); op('/'); }
+            else if (e.key === '.') { e.preventDefault(); dot(); }
+            else if (e.key === 'Enter') { e.preventDefault(); calc(); }
+            else if (e.key === 'Escape') { e.preventDefault(); clearAll(); }
+            else if (e.key === 'Backspace') { e.preventDefault(); del(); }
+        });
+    </script>
+</body>
+</html>
