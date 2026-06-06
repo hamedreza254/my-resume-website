@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>رزومه حمیدرضا</title>
+    <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Vazirmatn', sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px;
+            color: #1a1a1a;
+            line-height: 1.8;
+        }
+        .header {
+            text-align: center;
+            border-bottom: 3px solid #3b82f6;
+            padding-bottom: 20px;
+            margin-bottom: 25px;
+        }
+        .header h1 {
+            font-size: 28px;
+            color: #1e3a5f;
+            margin-bottom: 8px;
+        }
+        .header .title {
+            font-size: 16px;
+            color: #3b82f6;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .contact-row {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            flex-wrap: wrap;
+            font-size: 13px;
+            color: #555;
+        }
+        .contact-row span {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        h2 {
+            font-size: 18px;
+            color: #1e3a5f;
+            border-bottom: 2px solid #e5e7eb;
+            padding-bottom: 5px;
+            margin: 25px 0 12px 0;
+        }
+        .summary {
+            font-size: 14px;
+            color: #444;
+            margin-bottom: 10px;
+        }
+        .skills-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .skill-tag {
+            background: #eff6ff;
+            color: #3b82f6;
+            padding: 5px 14px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 500;
+        }
+        .section-item {
+            margin-bottom: 15px;
+        }
+        .section-item h3 {
+            font-size: 15px;
+            color: #1e3a5f;
+        }
+        .section-item .date {
+            font-size: 12px;
+            color: #888;
+        }
+        ul { padding-right: 20px; font-size: 14px; color: #444; }
+        ul li { margin-bottom: 4px; }
+        a { color: #3b82f6; text-decoration: none; }
+        .print-btn {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: #3b82f6;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: 'Vazirmatn', sans-serif;
+            font-size: 14px;
+        }
+        .print-btn:hover { background: #2563eb; }
+        @media print {
+            .print-btn { display: none; }
+            body { padding: 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <button class="print-btn" onclick="window.print()">🖨️ ذخیره به‌عنوان PDF / پرینت</button>
+
+    <div class="header">
+        <h1>حمیدرضا</h1>
+        <div class="title">برنامه‌نویس فرانت‌اند | Front-End Developer</div>
+        <div class="contact-row">
+            <span>📧 hamedreza254@gmail.com</span>
+            <span>📱 ۰۹۰۳۲۶۵۶۰۸۲</span>
+            <span>🌐 hamedreza254.github.io/my-resume-website</span>
+            <span>💻 github.com/hamedreza254</span>
+        </div>
+    </div>
+
+    <h2>خلاصه</h2>
+    <p class="summary">
+        برنامه‌نویس مشتاق فرانت‌اند با تمرکز بر HTML، CSS و JavaScript. روزانه ۶+ ساعت به یادگیری و تمرین کدنویسی اختصاص می‌دهم. 
+        به دنبال موقعیت کارآموزی یا Junior برای رشد حرفه‌ای و کمک به تیم‌های توسعه وب.
+    </p>
+
+    <h2>مهارت‌های فنی</h2>
+    <div class="skills-list">
+        <span class="skill-tag">HTML5</span>
+        <span class="skill-tag">CSS3</span>
+        <span class="skill-tag">JavaScript</span>
+        <span class="skill-tag">Tailwind CSS</span>
+        <span class="skill-tag">React (در حال یادگیری)</span>
+        <span class="skill-tag">Git & GitHub</span>
+        <span class="skill-tag">طراحی ریسپانسیو</span>
+        <span class="skill-tag">VS Code</span>
+    </div>
+
+    <h2>پروژه‌ها</h2>
+    <div class="section-item">
+        <h3>🌐 وب‌سایت رزومه شخصی</h3>
+        <div class="date">۲۰۲۵</div>
+        <ul>
+            <li>طراحی و پیاده‌سازی وب‌سایت رزومه با HTML، Tailwind CSS و JavaScript</li>
+            <li>دارای حالت تاریک/روشن، انیمیشن‌های تعاملی و طراحی کاملاً واکنش‌گرا</li>
+            <li>میزبانی روی GitHub Pages</li>
+        </ul>
+    </div>
+    <div class="section-item">
+        <h3>🧮 پروژه‌های تمرینی</h3>
+        <ul>
+            <li>ماشین حساب با JavaScript</li>
+            <li>Todo List با قابلیت ذخیره در مرورگر</li>
+            <li>برنامه نمایش آب و هوا با API</li>
+        </ul>
+    </div>
+
+    <h2>تحصیلات و یادگیری</h2>
+    <div class="section-item">
+        <h3>توسعه‌دهنده خودآموز (Self-Taught)</h3>
+        <div class="date">۲۰۲۴ - اکنون</div>
+        <ul>
+            <li>یادگیری روزانه از طریق دوره‌های آنلاین، مستندات رسمی و پروژه‌های عملی</li>
+            <li>تسلط بر HTML، CSS و JavaScript</li>
+            <li>در حال یادگیری React و مباحث پیشرفته فرانت‌اند</li>
+        </ul>
+    </div>
+
+    <h2>زبان‌ها</h2>
+    <ul>
+        <li>فارسی - زبان مادری</li>
+        <li>انگلیسی - متوسط (در حال بهبود)</li>
+    </ul>
+
+    <h2>اطلاعات بیشتر</h2>
+    <ul>
+        <li>آماده همکاری به‌صورت حضوری و دورکاری</li>
+        <li>علاقه‌مند به یادگیری تکنولوژی‌های جدید</li>
+        <li>متعهد به کد تمیز و بهترین روش‌های توسعه</li>
+    </ul>
+
+</body>
+</html>
